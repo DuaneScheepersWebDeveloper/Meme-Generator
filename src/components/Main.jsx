@@ -4,7 +4,12 @@ import { MainStyles } from './component-styles/AppStyles';
 import memeData from '../data/memeData';
 
 const Main = () => {
-  const [memeImage, setMemeImage] = useState('');
+  const memeState = {
+    topText: '',
+    bottomText: '',
+    randomImage: 'http://i.imgflip.com/1bij.jpg',
+  };
+  const [memeImage, setMemeImage] = useState(memeState);
 
   const [meme, setMeme] = useState({
     bottomText: '',
@@ -12,6 +17,11 @@ const Main = () => {
     randomImage: '',
   });
   const [allMemeImages, setAllMemeImages] = useState(memeData);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setMeme((prevMeme) => ({ ...prevMeme, [name]: value }));
+  };
 
   const handleMemeSubmit = () => {
     const memesArray = memeData.data.memes;
@@ -28,22 +38,26 @@ const Main = () => {
           type="text"
           className="form-input"
           name="topText"
+          value={meme.topText}
+          onChange={handleChange}
           placeholder="Top text"
         />
         <input
           type="text"
           className="form-input"
           name="bottomText"
+          value={meme.bottomText}
+          onChange={handleChange}
           placeholder="Bottom text"
         />
         <button onClick={handleMemeSubmit} className="form-button">
           Get a new meme image 🚀
         </button>
       </div>
-      <div className="meme-image-div">
+      <div className="meme">
         <img src={meme.randomImage} className="meme-image" />
-        <p>Top Text: </p>
-        <p>Bottom Text: </p>
+        <h2 className="meme-text top">{meme.topText}</h2>
+        <h2 className="meme-text bottom">{meme.bottomText}</h2>
       </div>
     </MainStyles>
   );
